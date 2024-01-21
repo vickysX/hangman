@@ -1,91 +1,107 @@
 [
     {
-        "entry": "",
-        "definition": "",
-        "level": "",
+        "entry": "love",
+        "definition": "Sentimento di viva affezione verso una persona che si manifesta come desiderio di procurare il suo bene e di ricercarne la compagnia.",
+        "definitionSource": "",
+        "level": "easy",
         "id": 1001
     },
     {
-        "entry": "",
-        "definition": "",
-        "level": "",
+        "entry": "death",
+        "definition": "La cessazione delle funzioni vitali nell’uomo, negli animali e in ogni altro organismo vivente o elemento costitutivo di esso.",
+        "definitionSource": "",
+        "level": "easy",
         "id": 1002
     },
     {
-        "entry": "",
-        "definition": "",
-        "level": "",
+        "entry": "light",
+        "definition": "Ente fisico al quale è dovuta l’eccitazione nell’occhio delle sensazioni visive, cioè la possibilità, da parte dell’occhio, di vedere gli oggetti.",
+        "definitionSource": "",
+        "level": "easy",
         "id": 1003
     },
     {
-        "entry": "",
-        "definition": "",
-        "level": "",
+        "entry": "fear",
+        "definition": "Stato emotivo consistente in un senso di insicurezza, di smarrimento e di ansia di fronte a un pericolo reale o immaginario o dinanzi a cosa o a fatto che sia o si creda dannoso.",
+        "definitionSource": "",
+        "level": "easy",
         "id": 1004
     },
     {
-        "entry": "",
-        "definition": "",
-        "level": "",
+        "entry": "cat",
+        "definition": "Mammifero domestico tra i più noti e diffusi, appartenente al genere Felis della famiglia felidi.",
+        "definitionSource": "",
+        "level": "easy",
         "id": 1005
     },
     {
-        "entry": "",
-        "definition": "",
+        "entry": "faith",
+        "definition": "Credenza piena e fiduciosa che procede da intima convinzione o si fonda sull’autorità altrui più che su prove positive.",
+        "definitionSource": "",
+        "level": "medium",
         "id": 1006
     },
     {
         "entry": "",
-        "definition": "",
-        "level": "",
+        "definition": "Il maggiore dei nove pianeti principali del sistema solare e il quinto in ordine di distanza dal Sole. È noto fin dall’antichità, essendo (insieme a Mercurio, Venere, Marte e Saturno) uno dei cinque pianeti visibili a occhio nudo.",
+        "definitionSource": "",
+        "level": "medium",
         "id": 1007
     },
     {
         "entry": "",
         "definition": "",
-        "level": "",
+        "definitionSource": "",
+        "level": "medium",
         "id": 1008
     },
     {
         "entry": "",
         "definition": "",
-        "level": "",
+        "definitionSource": "",
+        "level": "medium",
         "id": 1009
     },
     {
         "entry": "",
         "definition": "",
-        "level": "",
+        "definitionSource": "",
+        "level": "medium",
         "id": 1010
     },
     {
         "entry": "",
         "definition": "",
-        "level": "",
+        "definitionSource": "",
+        "level": "difficult",
         "id": 1011
     },
     {
         "entry": "",
         "definition": "",
-        "level": "",
+        "definitionSource": "",
+        "level": "difficult",
         "id": 1012
     },
     {
         "entry": "",
         "definition": "",
-        "level": "",
+        "definitionSource": "",
+        "level": "difficult",
         "id": 1013
     },
     {
         "entry": "",
         "definition": "",
-        "level": "",
+        "definitionSource": "",
+        "level": "difficult",
         "id": 1014
     },
     {
         "entry": "",
         "definition": "",
-        "level": "",
+        "definitionSource": "",
+        "level": "difficult",
         "id": 1015
     },
 ]
