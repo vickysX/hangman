@@ -8,14 +8,16 @@
 import SwiftUI
 
 struct ContentView: View {
+    @Environment(ModelData.self) var modelData
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            VStack {
+                // Start composing view
+                GuessingSpace(word: modelData.words[0])
+            }
+            .padding()
         }
-        .padding()
     }
 }
 

@@ -11,6 +11,12 @@
 		981C8C3E2B4B3FDE00CC7C87 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981C8C3D2B4B3FDE00CC7C87 /* ContentView.swift */; };
 		981C8C402B4B3FDF00CC7C87 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 981C8C3F2B4B3FDF00CC7C87 /* Assets.xcassets */; };
 		981C8C432B4B3FDF00CC7C87 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 981C8C422B4B3FDF00CC7C87 /* Preview Assets.xcassets */; };
+		9829536D2B61AC78008D4589 /* words.json in Resources */ = {isa = PBXBuildFile; fileRef = 9829536C2B61AC78008D4589 /* words.json */; };
+		982FE77D2B5DA93000F3F317 /* Definition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982FE77C2B5DA93000F3F317 /* Definition.swift */; };
+		982FE77F2B5DA94600F3F317 /* UsedLetters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982FE77E2B5DA94600F3F317 /* UsedLetters.swift */; };
+		982FE7812B5DAC2700F3F317 /* GuessingSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 982FE7802B5DAC2700F3F317 /* GuessingSpace.swift */; };
+		9860DEB62B5F12E20071DDBD /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9860DEB52B5F12E20071DDBD /* String.swift */; };
+		9860DEB82B5F14290071DDBD /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9860DEB72B5F14290071DDBD /* Array.swift */; };
 		98B803542B5AF8AC0096F0C1 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B803532B5AF8AC0096F0C1 /* Word.swift */; };
 		98B8035A2B5B00F30096F0C1 /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B803592B5B00F30096F0C1 /* ModelData.swift */; };
 /* End PBXBuildFile section */
@@ -21,8 +27,13 @@
 		981C8C3D2B4B3FDE00CC7C87 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		981C8C3F2B4B3FDF00CC7C87 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		981C8C422B4B3FDF00CC7C87 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		9829536C2B61AC78008D4589 /* words.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = words.json; sourceTree = "<group>"; };
+		982FE77C2B5DA93000F3F317 /* Definition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Definition.swift; sourceTree = "<group>"; };
+		982FE77E2B5DA94600F3F317 /* UsedLetters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsedLetters.swift; sourceTree = "<group>"; };
+		982FE7802B5DAC2700F3F317 /* GuessingSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuessingSpace.swift; sourceTree = "<group>"; };
+		9860DEB52B5F12E20071DDBD /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		9860DEB72B5F14290071DDBD /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		98B803532B5AF8AC0096F0C1 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
-		98B803572B5AFDA80096F0C1 /* words.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = words.json; sourceTree = "<group>"; };
 		98B803592B5B00F30096F0C1 /* ModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -56,12 +67,13 @@
 		981C8C3A2B4B3FDE00CC7C87 /* Hangman */ = {
 			isa = PBXGroup;
 			children = (
+				9829536E2B61AC88008D4589 /* Resources */,
+				9860DEB42B5F12CA0071DDBD /* Extensions */,
 				981C8C3B2B4B3FDE00CC7C87 /* HangmanApp.swift */,
 				98B803562B5AF93B0096F0C1 /* Views */,
 				981C8C3F2B4B3FDF00CC7C87 /* Assets.xcassets */,
 				981C8C412B4B3FDF00CC7C87 /* Preview Content */,
 				98B803552B5AF92A0096F0C1 /* Model */,
-				98B803582B5AFE960096F0C1 /* Resources */,
 			);
 			path = Hangman;
 			sourceTree = "<group>";
@@ -72,6 +84,23 @@
 				981C8C422B4B3FDF00CC7C87 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		9829536E2B61AC88008D4589 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9829536C2B61AC78008D4589 /* words.json */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		9860DEB42B5F12CA0071DDBD /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				9860DEB52B5F12E20071DDBD /* String.swift */,
+				9860DEB72B5F14290071DDBD /* Array.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		98B803552B5AF92A0096F0C1 /* Model */ = {
@@ -87,16 +116,11 @@
 			isa = PBXGroup;
 			children = (
 				981C8C3D2B4B3FDE00CC7C87 /* ContentView.swift */,
+				982FE77C2B5DA93000F3F317 /* Definition.swift */,
+				982FE77E2B5DA94600F3F317 /* UsedLetters.swift */,
+				982FE7802B5DAC2700F3F317 /* GuessingSpace.swift */,
 			);
 			path = Views;
-			sourceTree = "<group>";
-		};
-		98B803582B5AFE960096F0C1 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				98B803572B5AFDA80096F0C1 /* words.json */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -157,6 +181,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9829536D2B61AC78008D4589 /* words.json in Resources */,
 				981C8C432B4B3FDF00CC7C87 /* Preview Assets.xcassets in Resources */,
 				981C8C402B4B3FDF00CC7C87 /* Assets.xcassets in Resources */,
 			);
@@ -169,9 +194,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9860DEB82B5F14290071DDBD /* Array.swift in Sources */,
+				982FE77F2B5DA94600F3F317 /* UsedLetters.swift in Sources */,
 				981C8C3E2B4B3FDE00CC7C87 /* ContentView.swift in Sources */,
 				98B8035A2B5B00F30096F0C1 /* ModelData.swift in Sources */,
+				982FE77D2B5DA93000F3F317 /* Definition.swift in Sources */,
 				981C8C3C2B4B3FDE00CC7C87 /* HangmanApp.swift in Sources */,
+				982FE7812B5DAC2700F3F317 /* GuessingSpace.swift in Sources */,
+				9860DEB62B5F12E20071DDBD /* String.swift in Sources */,
 				98B803542B5AF8AC0096F0C1 /* Word.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

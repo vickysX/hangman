@@ -17,9 +17,9 @@ struct Word: Codable, Hashable, Identifiable {
     var level: DifficultyLevel
     
     enum DifficultyLevel: String, Codable {
-        case Easy = "easy"
-        case Medium = "medium"
-        case Difficult = "difficult"
+        case easy = "easy"
+        case medium = "medium"
+        case difficult = "difficult"
     }
 }
 

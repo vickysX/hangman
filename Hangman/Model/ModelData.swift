@@ -10,25 +10,26 @@ import Foundation
 
 @Observable
 class ModelData {
-    let words: [Word] = load(file: "words")
+    var words: [Word] = load("words.json")
+    var usedLetters = [Character]()
 }
 
-func load<T: Decodable>(file filename: String) -> T {
+func load<T: Decodable>(_ filename: String) -> T {
     // Set byte buffer
     let data: Data
     
     // Check if file exists
     // If it does create a file constant of type URL
     // otherwise crash the app
-    guard let file = Bundle.main.url(forResource: filename, withExtension: "json") else {
-        fatalError("Couldn't file \(filename) in main bundle")
+    guard let file = Bundle.main.url(forResource: filename, withExtension: nil) else {
+        fatalError("Couldn't find \(filename) in main bundle")
     }
     
     // transform file data into a buffer of bytes
     do {
        data = try Data(contentsOf: file)
     } catch {
-        fatalError("Couldn't file \(filename) in main bundle\n\(error)")
+        fatalError("Couldn't find \(filename) in main bundle\n\(error)")
     }
     
     // decode JSON data
