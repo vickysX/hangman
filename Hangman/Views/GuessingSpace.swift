@@ -11,8 +11,10 @@ struct GuessingSpace: View {
     @State private var showingDefinition = false
     @State private var usedLetters = [String]()
     
-    @State private var showingAlert = false
+    @State private var showingInvalidLetterAlert = false
     @State private var invalidLetterMessage = ""
+    
+    @State private var showingGuessedWordAlert = false
     
     @State private var wordInUnderscores = [String]()
     
@@ -26,7 +28,7 @@ struct GuessingSpace: View {
     
     var body: some View {
         VStack {
-            Text("")
+            Text(wordToBeGuessed)
             if showingDefinition {
                 Definition(
                     wordDefinition: word.definition,
@@ -36,14 +38,19 @@ struct GuessingSpace: View {
             UsedLetters(usedLetters: usedLetters)
         }
         .onAppear(perform: startGuessing)
-        .alert("Invalid input", isPresented: $showingAlert) {
+        .alert("Invalid input", isPresented: $showingInvalidLetterAlert) {
             Button("OK") {}
+        } message: {
+            Text(invalidLetterMessage)
         }
-        
+        .alert("", isPresented: $showingGuessedWordAlert) {
+            Button("Continue") {}
+        } message: {
+            Text("Congratulations, \(word.entry) was the correct word!")
+        }
     }
     
     func startGuessing() {
-        // setup initial state
         wordInUnderscores = [String](
             repeating: "_",
             count: word.entry.count
@@ -66,22 +73,15 @@ struct GuessingSpace: View {
             return
         }
         
-        // guess is correct
-        if word.entry.firstIndex(of: Character(letter)) == word.entry.lastIndex(of: Character(letter)) {
-            if let index = word.entry.split(separator: "").firstIndex(of: String.SubSequence(letter)) {
-                wordInUnderscores[index] = letter
-            }
-        } else {
-            var copy = word.entry.split(separator: "")
-            var indexes = [Int]()
-            while copy.contains(String.SubSequence(letter)) {
-                if let index = copy.firstIndex(of: Substring(letter)) {
-                    wordInUnderscores[index] = letter
-                    // TODO: Slice copy array (it's an array of String.SubSequence)
-                }
-            }
+        insert(input: letter)
+        
+        guard isWordGuessed() else {
+            return
         }
         
+        showingGuessedWordAlert = true
+        
+        // TODO: Implement some score logic
     }
     
     func isValid(input letter: String) -> Bool {
@@ -90,6 +90,27 @@ struct GuessingSpace: View {
     
     func doesWordContain(input letter: String) -> Bool {
         word.entry.contains(letter)
+    }
+    
+    func insert(input letter: String) {
+        if word.entry.firstIndex(of: Character(letter)) == word.entry.lastIndex(of: Character(letter)) {
+            if let index = word.entry.split(separator: "").firstIndex(of: String.SubSequence(letter)) {
+                wordInUnderscores[index] = letter
+            }
+        } else {
+            // Use an ArraySlice<String.SubSequence> object
+            var copy = word.entry.split(separator: "").suffix(from: 0)
+            while copy.contains(String.SubSequence(letter)) {
+                if let index = copy.firstIndex(of: String.SubSequence(letter)) {
+                    wordInUnderscores[index] = letter
+                    copy = copy.suffix(from: index + 1)
+                }
+            }
+        }
+    }
+    
+    func isWordGuessed() -> Bool {
+        !wordToBeGuessed.contains("_")
     }
 }
 

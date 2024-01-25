@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct HangmanApp: App {
@@ -15,6 +16,7 @@ struct HangmanApp: App {
         WindowGroup {
             ContentView()
                 .environment(modelData)
+                .modelContainer(for: UserScore.self)
         }
     }
 }

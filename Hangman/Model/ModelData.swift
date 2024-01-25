@@ -11,7 +11,6 @@ import Foundation
 @Observable
 class ModelData {
     var words: [Word] = load("words.json")
-    var usedLetters = [Character]()
 }
 
 func load<T: Decodable>(_ filename: String) -> T {

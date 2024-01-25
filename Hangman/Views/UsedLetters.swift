@@ -25,6 +25,7 @@ struct UsedLetters: View {
                     Text(letter)
                 }
             }
+            .animation(.default, value: usedLetters)
         }
     }
 }
