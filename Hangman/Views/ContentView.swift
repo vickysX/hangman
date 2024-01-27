@@ -12,19 +12,16 @@ struct ContentView: View {
     @Environment(ModelData.self) var modelData
     @Environment(\.modelContext) var context
     
-    @Query var userScore: UserScore
-    
-    // TODO: Move state for word guessed here
+    @Query(sort: \UserScore.score) var userScores: [UserScore]
     
     var body: some View {
-        @Bindable var score = userScore
         NavigationStack {
             VStack {
                 // Start composing view
-                GuessingSpace(word: modelData.words[0])
-                    .navigationTitle("Hangman")
-                    .navigationBarTitleDisplayMode(.inline)
+                GuessingScreen(word: modelData.words[0], userScore: userScores[0])
             }
+            .navigationTitle("Hangman")
+            .navigationBarTitleDisplayMode(.inline)
             .padding()
         }
     }

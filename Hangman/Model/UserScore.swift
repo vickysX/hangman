@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-class UserScore {
+final class UserScore {
     @Attribute(.unique) var userId: UUID
     
     var username: String
@@ -18,10 +18,13 @@ class UserScore {
     
     var level: DifficultyLevel
     
-    init(username: String, level: DifficultyLevel) {
+    var date: Date
+    
+    init(username: String, score: Int = 10, level: DifficultyLevel, date: Date = .now) {
         userId = UUID()
         self.username = username
-        self.score = 0
+        self.score = score
         self.level = level
+        self.date = date
     }
 }

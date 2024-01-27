@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import SwiftData
 
-struct GuessingSpace: View {
+struct GuessingScreen: View {
+    
     @State private var showingDefinition = false
     @State private var usedLetters = [String]()
     
@@ -19,6 +21,7 @@ struct GuessingSpace: View {
     @State private var wordInUnderscores = [String]()
     
     var word: Word
+    var userScore: UserScore
     
     var wordToBeGuessed: String {
         wordInUnderscores
@@ -27,6 +30,8 @@ struct GuessingSpace: View {
     }
     
     var body: some View {
+        @Bindable var userScore = userScore
+        
         VStack {
             Text(wordToBeGuessed)
             if showingDefinition {
@@ -70,10 +75,12 @@ struct GuessingSpace: View {
         
         guard doesWordContain(input: letter) else {
             usedLetters.append(letter)
+            userScore.score -= 1
             return
         }
         
         insert(input: letter)
+        userScore.score += 1
         
         guard isWordGuessed() else {
             return
@@ -81,7 +88,6 @@ struct GuessingSpace: View {
         
         showingGuessedWordAlert = true
         
-        // TODO: Implement some score logic
     }
     
     func isValid(input letter: String) -> Bool {
@@ -115,5 +121,16 @@ struct GuessingSpace: View {
 }
 
 #Preview {
-    GuessingSpace(word: Word(id: 0, entry: "io", definition: "Ciao, sono una definizione da dizionario", definitionSource: "Treccani", level: .easy))
+    do {
+        let config = ModelConfiguration(isStoredInMemoryOnly: true)
+        let container = try ModelContainer(for: UserScore.self, configurations: config)
+        
+        let word = Word(id: 0, entry: "io", definition: "Ciao, sono una definizione da dizionario", definitionSource: "Treccani", level: .easy)
+        let userScore = UserScore(username: "vicky", level: .easy)
+        
+        return GuessingScreen(word: word, userScore: userScore)
+            .modelContainer(container)
+    } catch {
+        fatalError("Failed to create a model container")
+    }
 }
