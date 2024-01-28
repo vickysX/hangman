@@ -13,15 +13,23 @@ struct GuessingScreen: View {
     @State private var showingDefinition = false
     @State private var usedLetters = [String]()
     
+    @State private var letterSelection = "m"
+    
+    @State private var wholeWordGuess = ""
+    
     @State private var showingInvalidLetterAlert = false
     @State private var invalidLetterMessage = ""
+    
+    @State private var showingWrongWholeWordAlert = false
     
     @State private var showingGuessedWordAlert = false
     
     @State private var wordInUnderscores = [String]()
     
     var word: Word
-    var userScore: UserScore
+    @Bindable var game: Game
+    
+    let allLetters = Array("abcdefghijklmnopqrstuvwxyz")
     
     var wordToBeGuessed: String {
         wordInUnderscores
@@ -30,57 +38,107 @@ struct GuessingScreen: View {
     }
     
     var body: some View {
-        @Bindable var userScore = userScore
-        
         VStack {
-            Text(wordToBeGuessed)
-            if showingDefinition {
-                Definition(
-                    wordDefinition: word.definition,
-                    definitionSource: word.definitionSource
-                )
+            Form {
+                Text(wordToBeGuessed)
+                    .font(.largeTitle)
+                    .padding()
+                Section("Choose a letter") {
+                    Picker("Select a letter", selection: $letterSelection) {
+                        ForEach(allLetters, id: \.self) { letter in
+                            Text(String(letter))
+                        }
+                    }
+                    .pickerStyle(.wheel)
+                }
+                TextField("Try to guess the whole word", text: $wholeWordGuess)
+                if showingDefinition {
+                    Definition(
+                        wordDefinition: word.definition,
+                        definitionSource: word.definitionSource
+                    )
+                }
+                UsedLetters(usedLetters: usedLetters)
             }
-            UsedLetters(usedLetters: usedLetters)
+            
         }
         .onAppear(perform: startGuessing)
-        .alert("Invalid input", isPresented: $showingInvalidLetterAlert) {
+        .alert("Stupid input", isPresented: $showingInvalidLetterAlert) {
             Button("OK") {}
         } message: {
             Text(invalidLetterMessage)
         }
-        .alert("", isPresented: $showingGuessedWordAlert) {
+        .alert("You guessed!", isPresented: $showingGuessedWordAlert) {
             Button("Continue") {}
         } message: {
             Text("Congratulations, \(word.entry) was the correct word!")
         }
+        .alert("Nice try", isPresented: $showingWrongWholeWordAlert) {
+            Button("OK") {
+                wholeWordGuess = ""
+            }
+        } message: {
+            Text("Sorry, \(wholeWordGuess) is not the correct word. Kudos to your braveness")
+        }
+        .toolbar {
+            Button("Guess") {
+                guard wholeWordGuess.isEmpty else {
+                    acceptWholeWord()
+                    return
+                }
+                accept(letter: letterSelection)
+            }
+        }
     }
     
     func startGuessing() {
-        wordInUnderscores = [String](
-            repeating: "_",
-            count: word.entry.count
-        )
+        if !word.entry.contains("-") {
+            wordInUnderscores = [String](
+                repeating: "_",
+                count: word.entry.count
+            )
+        } else {
+            for char in word.entry {
+                if String(char).isLetter {
+                    wordInUnderscores.append("_")
+                } else {
+                    wordInUnderscores.append(String(char))
+                }
+            }
+        }
     }
     
-    func accept(input letter: String) {
+    func acceptWholeWord() {
+        guard isWordGuessed() else {
+            // TODO: Implement some kind of penalty
+            showingWrongWholeWordAlert = true
+            return
+        }
+        
+        showingGuessedWordAlert = true
+    }
+    
+    func accept(letter: String) {
         guard usedLetters.doesNotContain(letter) else {
             invalidLetterMessage = "You already tried this letter."
             return
         }
         
-        guard letter.isLetterOrHyphen else {
-            invalidLetterMessage = "Invalid character. You can only insert a letter or a hyphen."
+        guard letter.isLetter else {
+            invalidLetterMessage = "Invalid character. You can only insert a letter."
             return
         }
         
         guard doesWordContain(input: letter) else {
-            usedLetters.append(letter)
-            userScore.score -= 1
+            withAnimation {
+                usedLetters.append(letter)
+                game.score -= 1
+            }
             return
         }
         
         insert(input: letter)
-        userScore.score += 1
+        game.score += 1
         
         guard isWordGuessed() else {
             return
@@ -91,7 +149,7 @@ struct GuessingScreen: View {
     }
     
     func isValid(input letter: String) -> Bool {
-        letter.isLetterOrHyphen || !usedLetters.contains(letter)
+        letter.isLetter || !usedLetters.contains(letter)
     }
     
     func doesWordContain(input letter: String) -> Bool {
@@ -116,19 +174,19 @@ struct GuessingScreen: View {
     }
     
     func isWordGuessed() -> Bool {
-        !wordToBeGuessed.contains("_")
+        !wordToBeGuessed.contains("_") || wholeWordGuess.lowercased() == word.entry.lowercased()
     }
 }
 
 #Preview {
     do {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
-        let container = try ModelContainer(for: UserScore.self, configurations: config)
+        let container = try ModelContainer(for: Game.self, configurations: config)
         
         let word = Word(id: 0, entry: "io", definition: "Ciao, sono una definizione da dizionario", definitionSource: "Treccani", level: .easy)
-        let userScore = UserScore(username: "vicky", level: .easy)
+        let newGame = Game()
         
-        return GuessingScreen(word: word, userScore: userScore)
+        return GuessingScreen(word: word, game: newGame)
             .modelContainer(container)
     } catch {
         fatalError("Failed to create a model container")

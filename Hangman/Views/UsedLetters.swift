@@ -8,12 +8,11 @@
 import SwiftUI
 
 struct UsedLetters: View {
-    @Environment(ModelData.self) var modelData
     
     let columns = [
-        GridItem(.fixed(40)),
-        GridItem(.fixed(40)),
-        GridItem(.fixed(40)),
+        GridItem(.fixed(80)),
+        GridItem(.fixed(80)),
+        GridItem(.fixed(80)),
     ]
     
     var usedLetters: [String]
@@ -27,9 +26,12 @@ struct UsedLetters: View {
             }
             .animation(.default, value: usedLetters)
         }
+        
     }
 }
 
 #Preview {
-    UsedLetters(usedLetters: ["a", "b", "c"])
+    Form {
+        UsedLetters(usedLetters: ["a", "b", "c", "d", "e", "f"])
+    }
 }

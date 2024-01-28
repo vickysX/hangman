@@ -12,13 +12,13 @@ struct ContentView: View {
     @Environment(ModelData.self) var modelData
     @Environment(\.modelContext) var context
     
-    @Query(sort: \UserScore.score) var userScores: [UserScore]
+    @Query(sort: \Game.score) var pastGames: [Game]
     
     var body: some View {
         NavigationStack {
             VStack {
                 // Start composing view
-                GuessingScreen(word: modelData.words[0], userScore: userScores[0])
+                GuessingScreen(word: modelData.words[0], game: Game())
             }
             .navigationTitle("Hangman")
             .navigationBarTitleDisplayMode(.inline)

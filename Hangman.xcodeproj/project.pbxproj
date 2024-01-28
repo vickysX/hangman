@@ -19,7 +19,7 @@
 		9860DEB82B5F14290071DDBD /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9860DEB72B5F14290071DDBD /* Array.swift */; };
 		98B803542B5AF8AC0096F0C1 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B803532B5AF8AC0096F0C1 /* Word.swift */; };
 		98B8035A2B5B00F30096F0C1 /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98B803592B5B00F30096F0C1 /* ModelData.swift */; };
-		98D5CC8B2B6305B60010468B /* UserScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D5CC8A2B6305B60010468B /* UserScore.swift */; };
+		98D5CC8B2B6305B60010468B /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D5CC8A2B6305B60010468B /* Game.swift */; };
 		98D5CC8D2B63061E0010468B /* DifficultyLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D5CC8C2B63061E0010468B /* DifficultyLevel.swift */; };
 /* End PBXBuildFile section */
 
@@ -37,7 +37,7 @@
 		9860DEB72B5F14290071DDBD /* Array.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
 		98B803532B5AF8AC0096F0C1 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		98B803592B5B00F30096F0C1 /* ModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
-		98D5CC8A2B6305B60010468B /* UserScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserScore.swift; sourceTree = "<group>"; };
+		98D5CC8A2B6305B60010468B /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
 		98D5CC8C2B63061E0010468B /* DifficultyLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DifficultyLevel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -112,7 +112,7 @@
 			children = (
 				98B803532B5AF8AC0096F0C1 /* Word.swift */,
 				98B803592B5B00F30096F0C1 /* ModelData.swift */,
-				98D5CC8A2B6305B60010468B /* UserScore.swift */,
+				98D5CC8A2B6305B60010468B /* Game.swift */,
 				98D5CC8C2B63061E0010468B /* DifficultyLevel.swift */,
 			);
 			path = Model;
@@ -210,7 +210,7 @@
 				98D5CC8D2B63061E0010468B /* DifficultyLevel.swift in Sources */,
 				9860DEB62B5F12E20071DDBD /* String.swift in Sources */,
 				98B803542B5AF8AC0096F0C1 /* Word.swift in Sources */,
-				98D5CC8B2B6305B60010468B /* UserScore.swift in Sources */,
+				98D5CC8B2B6305B60010468B /* Game.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

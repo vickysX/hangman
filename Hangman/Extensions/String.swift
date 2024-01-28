@@ -8,7 +8,8 @@
 import Foundation
 
 
-extension String {
+extension String{
+    
     var isDigit: Bool {
         self.contains(Regex(/[0-9]/))
     }
@@ -17,7 +18,7 @@ extension String {
         !self.isDigit
     }
     
-    var isLetterOrHyphen: Bool {
+    var isLetter: Bool {
         self.contains(Regex(/[a-zA-Z-]/))
     }
     

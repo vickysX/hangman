@@ -16,7 +16,7 @@ struct HangmanApp: App {
         WindowGroup {
             ContentView()
                 .environment(modelData)
-                .modelContainer(for: UserScore.self)
+                .modelContainer(for: Game.self)
         }
     }
 }
