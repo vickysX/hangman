@@ -38,11 +38,12 @@ struct GuessingScreen: View {
     }
     
     var body: some View {
-        VStack {
+        VStack(alignment: .center) {
             Form {
                 Text(wordToBeGuessed)
                     .font(.largeTitle)
                     .padding()
+                    .frame(alignment: .center)
                 Section("Choose a letter") {
                     Picker("Select a letter", selection: $letterSelection) {
                         ForEach(allLetters, id: \.self) { letter in
@@ -51,12 +52,27 @@ struct GuessingScreen: View {
                     }
                     .pickerStyle(.wheel)
                 }
-                TextField("Try to guess the whole word", text: $wholeWordGuess)
-                if showingDefinition {
-                    Definition(
-                        wordDefinition: word.definition,
-                        definitionSource: word.definitionSource
-                    )
+                Section {
+                    TextField("Try to guess the whole word", text: $wholeWordGuess)
+                }
+                Section {
+                    Button {
+                        showingDefinition.toggle()
+                    } label: {
+                        HStack {
+                            Image(systemName: "lightbulb")
+                            Text("Hint")
+                        }
+                    }
+                    .popover(isPresented: $showingDefinition, attachmentAnchor: .point(.center),
+                             arrowEdge: .top
+                    ) {
+                        Definition(wordDefinition: word.definition, definitionSource: word.definitionSource)
+                            .presentationCompactAdaptation(.popover)
+                            .onTapGesture {
+                                showingDefinition.toggle()
+                            }
+                    }
                 }
                 UsedLetters(usedLetters: usedLetters)
             }
@@ -183,7 +199,7 @@ struct GuessingScreen: View {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         let container = try ModelContainer(for: Game.self, configurations: config)
         
-        let word = Word(id: 0, entry: "io", definition: "Ciao, sono una definizione da dizionario", definitionSource: "Treccani", level: .easy)
+        let word = Word(id: 0, entry: "io", definition: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ", definitionSource: "Treccani", level: .easy)
         let newGame = Game()
         
         return GuessingScreen(word: word, game: newGame)

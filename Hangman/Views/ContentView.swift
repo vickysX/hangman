@@ -18,6 +18,7 @@ struct ContentView: View {
         NavigationStack {
             VStack {
                 // Start composing view
+                
                 GuessingScreen(word: modelData.words[0], game: Game())
             }
             .navigationTitle("Hangman")

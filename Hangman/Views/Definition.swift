@@ -12,15 +12,19 @@ struct Definition: View {
     var definitionSource: String
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(wordDefinition)
-                .font(.caption)
-                .italic()
-            Spacer()
-            Text(definitionSource)
-                .font(.footnote)
+        ScrollView {
+            VStack(alignment: .leading) {
+                Image(systemName: "lightbulb.fill")
+                    .tint(.yellow)
+                Text("\"\(wordDefinition)\"")
+                    .font(.caption)
+                    .italic()
+                    .padding()
+                Text(definitionSource)
+                    .font(.caption)
+            }
         }
-        
+        .padding()
     }
 }
 
