@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class Game {
+final class Game: Identifiable, Hashable {
     @Attribute(.unique) var gameId: UUID
     
     var score: Int
