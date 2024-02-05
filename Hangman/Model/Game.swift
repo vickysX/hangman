@@ -18,10 +18,26 @@ final class Game: Identifiable, Hashable {
     
     var date: Date
     
-    init(score: Int = 10, level: DifficultyLevel = .easy, date: Date = .now) {
+    var numWords: Int
+    
+    var isFinished: Bool {
+        numWords >= 3
+    }
+    
+    var isOver: Bool {
+        score < 0
+    }
+    
+    init(
+        score: Int = 10,
+        level: DifficultyLevel = .easy,
+        date: Date = .now,
+        numWords: Int = 0
+    ) {
         gameId = UUID()
         self.score = score
         self.level = level
         self.date = date
+        self.numWords = numWords
     }
 }

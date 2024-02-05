@@ -9,6 +9,7 @@ import SwiftUI
 import SwiftData
 
 struct GuessingScreen: View {
+    @Environment(\.modelContext) var context
     
     @State private var showingDefinition = false
     @State private var usedLetters = [String]()
@@ -25,11 +26,20 @@ struct GuessingScreen: View {
     @State private var showingGuessedWordAlert = false
     
     @State private var wordInUnderscores = [String]()
+
     
-    var word: Word
+    var chooseWord: () -> Word?
     @Bindable var game: Game
     
     let allLetters = Array("abcdefghijklmnopqrstuvwxyz")
+    
+    var word: Word {
+        if let theWord = chooseWord() {
+            return theWord
+        } else {
+            fatalError()
+        }
+    }
     
     var wordToBeGuessed: String {
         wordInUnderscores
@@ -37,13 +47,28 @@ struct GuessingScreen: View {
             .trimmingCharacters(in: .whitespaces)
     }
     
+    var scoreIncrementBasedOnLevel: Int {
+        switch word.level {
+        case .easy:
+            1
+        case .medium, .difficult:
+            2
+        }
+    }
+    
+    var wrongGuessesInScorePoints: Int {
+        usedLetters.count / scoreIncrementBasedOnLevel
+    }
+    
     var body: some View {
         VStack(alignment: .center) {
             Form {
-                Text(wordToBeGuessed)
-                    .font(.largeTitle)
-                    .padding()
-                    .frame(alignment: .center)
+                Section {
+                    Text(wordToBeGuessed)
+                        .font(.largeTitle)
+                        .padding()
+                        .frame(alignment: .center)
+                }
                 Section("Choose a letter") {
                     Picker("Select a letter", selection: $letterSelection) {
                         ForEach(allLetters, id: \.self) { letter in
@@ -52,7 +77,7 @@ struct GuessingScreen: View {
                     }
                     .pickerStyle(.wheel)
                 }
-                Section {
+                Section("Do you think you're smart?") {
                     TextField("Try to guess the whole word", text: $wholeWordGuess)
                 }
                 Section {
@@ -78,7 +103,10 @@ struct GuessingScreen: View {
             }
             
         }
-        .onAppear(perform: startGuessing)
+        .onAppear(perform: {
+            context.insert(game)
+            startGuessing()
+        })
         .alert("Stupid input", isPresented: $showingInvalidLetterAlert) {
             Button("OK") {}
         } message: {
@@ -131,6 +159,7 @@ struct GuessingScreen: View {
             return
         }
         
+        game.score += word.entry.count + scoreIncrementBasedOnLevel
         showingGuessedWordAlert = true
     }
     
@@ -148,13 +177,13 @@ struct GuessingScreen: View {
         guard doesWordContain(input: letter) else {
             withAnimation {
                 usedLetters.append(letter)
-                game.score -= 1
+                game.score -= scoreIncrementBasedOnLevel
             }
             return
         }
         
         insert(input: letter)
-        game.score += 1
+        game.score += scoreIncrementBasedOnLevel
         
         guard isWordGuessed() else {
             return
@@ -199,10 +228,15 @@ struct GuessingScreen: View {
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         let container = try ModelContainer(for: Game.self, configurations: config)
         
-        let word = Word(id: 0, entry: "io", definition: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ", definitionSource: "Treccani", level: .easy)
+        let chooseWord: () -> Word? = {
+            let fakeList = [
+                Word(id: 0, entry: "io", definition: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ", definitionSource: "Treccani", level: .easy)
+            ]
+            return fakeList.first
+        }
         let newGame = Game()
         
-        return GuessingScreen(word: word, game: newGame)
+        return GuessingScreen(chooseWord: chooseWord, game: newGame)
             .modelContainer(container)
     } catch {
         fatalError("Failed to create a model container")

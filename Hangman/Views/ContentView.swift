@@ -20,28 +20,43 @@ struct ContentView: View {
     
     @Query(fetchDescriptor) var pastGames: [Game]
     
+    var newGame = Game()
+    
     var body: some View {
         NavigationStack {
-            Section {
+            //VStack {
                 List {
-                    NavigationLink(destination: GuessingScreen(word: modelData.words[0], game: Game())) {
-                        Label("Start new game", image: "dice")
+                    NavigationLink(destination: GuessingScreen(chooseWord: chooseWordToGuess, game: Game())) {
+                        Label("Start new game", systemImage: "dice")
                             .foregroundColor(.accentColor)
                     }
                     if pastGames.isEmpty {
-                        Text("It seems you have never played before!")
+                        Text("It seems you have never played before! What are you waiting for?")
+                            .multilineTextAlignment(.center)
                             .font(.largeTitle)
+                            .padding()
                     } else {
-                        ForEach(pastGames) { game in
-                            Text("Score: \(game.score)")
+                        Section("Your best games") {
+                            ForEach(pastGames) { game in
+                                Text("Score: \(game.score)\n\(game.date.formatted(date: .abbreviated, time: .shortened))")
+                            }
                         }
                     }
                 }
-            }
+            //}
             .navigationTitle("Hangman")
-            .navigationBarTitleDisplayMode(.inline)
-            .padding()
+            .navigationBarTitleDisplayMode(.large)
         }
+    }
+    
+    func chooseWordToGuess() -> Word? {
+        let wordsAtCurrentLevel = modelData.words
+            .filter {word in
+            word.level == newGame.level
+        }
+        return newGame.isFinished ?
+            nil :
+            wordsAtCurrentLevel.randomElement()
     }
 }
 
