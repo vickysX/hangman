@@ -41,3 +41,24 @@ final class Game: Identifiable, Hashable {
         self.numWords = numWords
     }
 }
+
+extension Game {
+    func chooseWordToGuess(from words: [Word]) -> Word? {
+        let wordsAtCurrentLevel = words
+            .filter {word in
+            word.level == self.level
+        }
+        return self.isFinished ?
+            nil :
+            wordsAtCurrentLevel.randomElement()
+    }
+    
+    func goToNextLevel() {
+        switch self.level {
+        case .easy:
+            self.level = .medium
+        case .medium, .difficult:
+            self.level = .difficult
+        }
+    }
+}

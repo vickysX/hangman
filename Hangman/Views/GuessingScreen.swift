@@ -9,12 +9,13 @@ import SwiftUI
 import SwiftData
 
 struct GuessingScreen: View {
+    @Environment(ModelData.self) var modelData
     @Environment(\.modelContext) var context
     
     @State private var showingDefinition = false
     @State private var usedLetters = [String]()
     
-    @State private var letterSelection = "m"
+    @State private var letterSelection = ""
     
     @State private var wholeWordGuess = ""
     
@@ -25,19 +26,23 @@ struct GuessingScreen: View {
     
     @State private var showingGuessedWordAlert = false
     
+    @State private var wordOptional: Word? = nil
+    
     @State private var wordInUnderscores = [String]()
-
     
-    var chooseWord: () -> Word?
     @Bindable var game: Game
+    @Binding var isGameFinished: Bool
+    @Binding var isGameOver: Bool
     
-    let allLetters = Array("abcdefghijklmnopqrstuvwxyz")
+    let allLetters = Array("abcdefghijklmnopqrstuvwxyz").map {
+        String($0)
+    }
     
     var word: Word {
-        if let theWord = chooseWord() {
+        if let theWord = wordOptional {
             return theWord
         } else {
-            fatalError()
+            return modelData.words[0]
         }
     }
     
@@ -113,13 +118,14 @@ struct GuessingScreen: View {
             Text(invalidLetterMessage)
         }
         .alert("You guessed!", isPresented: $showingGuessedWordAlert) {
-            Button("Continue") {}
+            Button("Continue") {
+                startGuessing()
+            }
         } message: {
             Text("Congratulations, \(word.entry) was the correct word!")
         }
         .alert("Nice try", isPresented: $showingWrongWholeWordAlert) {
             Button("OK") {
-                wholeWordGuess = ""
             }
         } message: {
             Text("Sorry, \(wholeWordGuess) is not the correct word. Kudos to your braveness")
@@ -136,6 +142,25 @@ struct GuessingScreen: View {
     }
     
     func startGuessing() {
+        print(game.score)
+        print(game.numWords)
+        print(game.level)
+        
+        guard !game.isFinished else {
+            isGameFinished = true
+            return
+        }
+        
+        guard !game.isOver else {
+            isGameOver = true
+            return
+        }
+        
+        print("Loading new word...")
+        
+        wordOptional = game.chooseWordToGuess(from: modelData.words)
+        print(wordOptional)
+        print("Chosen word: \(word.entry)")
         if !word.entry.contains("-") {
             wordInUnderscores = [String](
                 repeating: "_",
@@ -154,12 +179,18 @@ struct GuessingScreen: View {
     
     func acceptWholeWord() {
         guard isWordGuessed() else {
-            // TODO: Implement some kind of penalty
             showingWrongWholeWordAlert = true
             return
         }
         
+        withAnimation {
+            usedLetters = []
+            wholeWordGuess = ""
+        }
+        
         game.score += word.entry.count + scoreIncrementBasedOnLevel
+        game.numWords += 1
+        game.goToNextLevel()
         showingGuessedWordAlert = true
     }
     
@@ -189,8 +220,15 @@ struct GuessingScreen: View {
             return
         }
         
-        showingGuessedWordAlert = true
+        withAnimation {
+            usedLetters = []
+        }
         
+        showingGuessedWordAlert = true
+        game.numWords += 1
+        if wrongGuessesInScorePoints <= 6 {
+            game.goToNextLevel()
+        }
     }
     
     func isValid(input letter: String) -> Bool {
@@ -216,6 +254,7 @@ struct GuessingScreen: View {
                 }
             }
         }
+        print(wordInUnderscores)
     }
     
     func isWordGuessed() -> Bool {
@@ -234,9 +273,10 @@ struct GuessingScreen: View {
             ]
             return fakeList.first
         }
-        let newGame = Game()
-        
-        return GuessingScreen(chooseWord: chooseWord, game: newGame)
+        let game = Game()
+        @State var gameOver = false
+        @State var gameFinished = false
+        return GuessingScreen(game: game, isGameFinished: $gameFinished, isGameOver: $gameOver)
             .modelContainer(container)
     } catch {
         fatalError("Failed to create a model container")

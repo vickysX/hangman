@@ -12,11 +12,21 @@ import SwiftData
 struct HangmanApp: App {
     @State private var modelData = ModelData()
     
+    let modelContainer: ModelContainer
+        
+    init() {
+        do {
+            modelContainer = try ModelContainer(for: Game.self)
+        } catch {
+            fatalError("Could not initialize ModelContainer")
+        }
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(modelData)
-                .modelContainer(for: Game.self)
         }
+        .environment(modelData)
+        .modelContainer(modelContainer)
     }
 }
