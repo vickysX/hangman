@@ -12,9 +12,6 @@ struct ContentView: View {
     @Environment(ModelData.self) var modelData
     @Environment(\.modelContext) var context
     
-    @State private var showGameFinishedAlert = false
-    @State private var showGameOverAlert = false
-    
     static var fetchDescriptor: FetchDescriptor<Game> {
         var descriptor = FetchDescriptor<Game>(sortBy: [SortDescriptor(\Game.score, order: .reverse)])
         descriptor.fetchLimit = 8
@@ -40,9 +37,7 @@ struct ContentView: View {
                 List {
                     NavigationLink(
                         destination: GuessingScreen(
-                            game: Game(),
-                            isGameFinished: $showGameFinishedAlert,
-                            isGameOver: $showGameOverAlert
+                            game: Game()
                         )) {
                         Label("Start new game", systemImage: "dice")
                             .foregroundColor(.accentColor)
@@ -63,24 +58,6 @@ struct ContentView: View {
             //}
             .navigationTitle("Hangman")
             .navigationBarTitleDisplayMode(.large)
-        }
-        .alert("Endgame", isPresented: $showGameFinishedAlert) {
-            Button("OK", role: .cancel) {
-                
-            }
-            Button("Exit", role: .destructive) {
-                exit(0)
-            }
-        } message: {
-            Text("Game ended")
-        }
-        .alert("Game Over", isPresented: $showGameOverAlert) {
-            Button("OK", role: .cancel) {}
-            Button("Exit", role: .destructive) {
-                exit(0)
-            }
-        } message: {
-            Text("LOOOSEEERRR")
         }
     }
 }

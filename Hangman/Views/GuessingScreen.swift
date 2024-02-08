@@ -11,11 +11,12 @@ import SwiftData
 struct GuessingScreen: View {
     @Environment(ModelData.self) var modelData
     @Environment(\.modelContext) var context
+    @Environment(\.dismiss) private var dismiss
     
     @State private var showingDefinition = false
     @State private var usedLetters = [String]()
     
-    @State private var letterSelection = ""
+    @State private var letterSelection = "a"
     
     @State private var wholeWordGuess = ""
     
@@ -26,13 +27,14 @@ struct GuessingScreen: View {
     
     @State private var showingGuessedWordAlert = false
     
+    @State private var showGameFinishedAlert = false
+    @State private var showGameOverAlert = false
+    
     @State private var wordOptional: Word? = nil
     
     @State private var wordInUnderscores = [String]()
     
     @Bindable var game: Game
-    @Binding var isGameFinished: Bool
-    @Binding var isGameOver: Bool
     
     let allLetters = Array("abcdefghijklmnopqrstuvwxyz").map {
         String($0)
@@ -53,16 +55,16 @@ struct GuessingScreen: View {
     }
     
     var scoreIncrementBasedOnLevel: Int {
-        switch word.level {
+        switch game.level {
         case .easy:
-            1
+            return 1
         case .medium, .difficult:
-            2
+            return 2
         }
     }
     
     var wrongGuessesInScorePoints: Int {
-        usedLetters.count / scoreIncrementBasedOnLevel
+        usedLetters.count * scoreIncrementBasedOnLevel
     }
     
     var body: some View {
@@ -119,6 +121,7 @@ struct GuessingScreen: View {
             }
             .navigationTitle("Hangman")
             .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true)
         }
         .onAppear(perform: {
             context.insert(game)
@@ -142,6 +145,30 @@ struct GuessingScreen: View {
         } message: {
             Text("Sorry, \(wholeWordGuess) is not the correct word. Kudos to your braveness")
         }
+        .alert("Endgame", isPresented: $showGameFinishedAlert) {
+            Button("OK", role: .cancel) {
+                context.insert(game)
+                dismiss()
+            }
+            Button("Exit", role: .destructive) {
+                context.insert(game)
+                exit(0)
+            }
+        } message: {
+            Text("Congratulations, you won!")
+        }
+        .alert("Game Over", isPresented: $showGameOverAlert) {
+            Button("OK", role: .cancel) {
+                context.insert(game)
+                dismiss()
+            }
+            Button("Exit", role: .destructive) {
+                context.insert(game)
+                exit(0)
+            }
+        } message: {
+            Text("LOOOSEEERRR")
+        }
         .toolbar {
             Button("Guess") {
                 guard wholeWordGuess.isEmpty else {
@@ -154,9 +181,10 @@ struct GuessingScreen: View {
     }
     
     func startGuessing() {
-        /*print(game.score)
-        print(game.numWords)
-        print(game.level)*/
+        print(game.id)
+        print(game.score)
+        print(game.level)
+        
         if usedLetters.isNotEmpty {
             withAnimation {
                 usedLetters = []
@@ -164,17 +192,17 @@ struct GuessingScreen: View {
         }
         
         guard !game.isFinished else {
-            isGameFinished = true
+            showGameFinishedAlert = true
             return
         }
         
         guard !game.isOver else {
-            isGameOver = true
+            showGameOverAlert = true
             return
         }
         
         //print("Loading new word...")
-        if wrongGuessesInScorePoints <= 6 {
+        if wrongGuessesInScorePoints <= 6 && game.score > 10 {
             game.goToNextLevel()
         }
         
@@ -203,6 +231,11 @@ struct GuessingScreen: View {
             return
         }
         
+        guard !game.isOver else {
+            showGameOverAlert = true
+            return
+        }
+        
         withAnimation {
             usedLetters = []
             wholeWordGuess = ""
@@ -215,12 +248,15 @@ struct GuessingScreen: View {
     }
     
     func accept(letter: String) {
+        
         guard usedLetters.doesNotContain(letter) else {
+            showingInvalidLetterAlert = true
             invalidLetterMessage = "You already tried this letter."
             return
         }
         
         guard letter.isLetter else {
+            showingInvalidLetterAlert = true
             invalidLetterMessage = "Invalid character. You can only insert a letter."
             return
         }
@@ -229,6 +265,12 @@ struct GuessingScreen: View {
             withAnimation {
                 usedLetters.append(letter)
                 game.score -= scoreIncrementBasedOnLevel
+            }
+            print("usedLetters.count: \(usedLetters.count)")
+            print("scoreIncrementBasedOnLevel: \(scoreIncrementBasedOnLevel)")
+            guard !game.isOver else {
+                showGameOverAlert = true
+                return
             }
             return
         }
@@ -290,7 +332,7 @@ struct GuessingScreen: View {
         let game = Game()
         @State var gameOver = false
         @State var gameFinished = false
-        return GuessingScreen(game: game, isGameFinished: $gameFinished, isGameOver: $gameOver)
+        return GuessingScreen(game: game)
             .modelContainer(container)
     } catch {
         fatalError("Failed to create a model container")

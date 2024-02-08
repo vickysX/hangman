@@ -21,11 +21,11 @@ final class Game: Identifiable, Hashable {
     var numWords: Int
     
     var isFinished: Bool {
-        numWords >= 3
+        self.numWords >= 3
     }
     
     var isOver: Bool {
-        score < 0
+        self.score < 0
     }
     
     init(
@@ -44,11 +44,13 @@ final class Game: Identifiable, Hashable {
 
 extension Game {
     func chooseWordToGuess(from words: [Word]) -> Word? {
+        print(self.level)
         let wordsAtCurrentLevel = words
             .filter {word in
-            word.level == self.level
+            (word.level == self.level)
         }
-        return self.isFinished ?
+        print(wordsAtCurrentLevel)
+        return self.isFinished || self.isOver ?
             nil :
             wordsAtCurrentLevel.randomElement()
     }
@@ -57,8 +59,10 @@ extension Game {
         switch self.level {
         case .easy:
             self.level = .medium
-        case .medium, .difficult:
+        case .medium:
             self.level = .difficult
+        case .difficult:
+            self.level = .easy
         }
     }
 }
