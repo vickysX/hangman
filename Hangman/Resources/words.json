@@ -9,98 +9,98 @@
     {
         "entry": "death",
         "definition": "La cessazione delle funzioni vitali nell’uomo, negli animali e in ogni altro organismo vivente o elemento costitutivo di esso.",
-        "definitionSource": "",
+        "definitionSource": "Vocabolario Treccani",
         "level": "easy",
         "id": 1002
     },
     {
         "entry": "light",
         "definition": "Ente fisico al quale è dovuta l’eccitazione nell’occhio delle sensazioni visive, cioè la possibilità, da parte dell’occhio, di vedere gli oggetti.",
-        "definitionSource": "",
+        "definitionSource": "Vocabolario Treccani",
         "level": "easy",
         "id": 1003
     },
     {
         "entry": "fear",
         "definition": "Stato emotivo consistente in un senso di insicurezza, di smarrimento e di ansia di fronte a un pericolo reale o immaginario o dinanzi a cosa o a fatto che sia o si creda dannoso.",
-        "definitionSource": "",
+        "definitionSource": "Vocabolario Treccani",
         "level": "easy",
         "id": 1004
     },
     {
         "entry": "cat",
         "definition": "Mammifero domestico tra i più noti e diffusi, appartenente al genere Felis della famiglia felidi.",
-        "definitionSource": "",
+        "definitionSource": "Vocabolario Treccani",
         "level": "easy",
         "id": 1005
     },
     {
         "entry": "faith",
         "definition": "Credenza piena e fiduciosa che procede da intima convinzione o si fonda sull’autorità altrui più che su prove positive.",
-        "definitionSource": "",
+        "definitionSource": "Vocabolario Treccani",
         "level": "medium",
         "id": 1006
     },
     {
-        "entry": "",
+        "entry": "jupiter",
         "definition": "Il maggiore dei nove pianeti principali del sistema solare e il quinto in ordine di distanza dal Sole. È noto fin dall’antichità, essendo (insieme a Mercurio, Venere, Marte e Saturno) uno dei cinque pianeti visibili a occhio nudo.",
         "definitionSource": "Enciclopedia Treccani",
         "level": "medium",
         "id": 1007
     },
     {
-        "entry": "",
-        "definition": "",
-        "definitionSource": "",
+        "entry": "mentor",
+        "definition": "Fido consigliere, guida saggia e paterna.",
+        "definitionSource": "Vocabolario Treccani",
         "level": "medium",
         "id": 1008
     },
     {
-        "entry": "",
-        "definition": "",
-        "definitionSource": "",
+        "entry": "database",
+        "definition": "Collezione di dati organizzati immagazzinata e accessibile per via elettronica.",
+        "definitionSource": "Wikipedia",
         "level": "medium",
         "id": 1009
     },
     {
-        "entry": "",
-        "definition": "",
-        "definitionSource": "",
+        "entry": "hyperlink",
+        "definition": "rinvio da un'unità informativa (documenti, immagini, etc.) su supporto digitale ad un'altra. È ciò che caratterizza la non linearità dell'informazione propria di un ipertesto.",
+        "definitionSource": "Wikipedia",
         "level": "medium",
         "id": 1010
     },
     {
-        "entry": "",
-        "definition": "",
-        "definitionSource": "",
+        "entry": "misanthropy",
+        "definition": "L'odio generale, l'antipatia, la sfiducia o il disprezzo della specie umana, del comportamento umano o della natura umana.",
+        "definitionSource": "Wikipedia",
         "level": "difficult",
         "id": 1011
     },
     {
-        "entry": "",
-        "definition": "",
-        "definitionSource": "",
+        "entry": "byzantine",
+        "definition": "Eccessivamente raffinato, sofisticato, artificioso, cavilloso, minuzioso, sottile, pedantesco",
+        "definitionSource": "Dizionari laRepubblica",
         "level": "difficult",
         "id": 1012
     },
     {
-        "entry": "",
-        "definition": "",
+        "entry": "phenomenon",
+        "definition": "Qualsiasi fatto o evento suscettibile di osservazione diretta o indiretta, provocato o meno dall'uomo; oggetto di meraviglia e di ammirazione,",
         "definitionSource": "",
         "level": "difficult",
         "id": 1013
     },
     {
-        "entry": "",
-        "definition": "",
-        "definitionSource": "",
+        "entry": "encyclopedia",
+        "definition": "Opera di consultazione che raccoglie voci informative o critiche «secondo un sistema logico, o anche sotto forma di voci singole distribuite in ordine alfabetico», riguardanti l'intero campo della conoscenza umana o un suo determinato ambito.",
+        "definitionSource": "Wikipedia",
         "level": "difficult",
         "id": 1014
     },
     {
-        "entry": "",
-        "definition": "",
-        "definitionSource": "",
+        "entry": "prosopagnosia",
+        "definition": "Deficit percettivo acquisito o congenito del sistema nervoso centrale che impedisce ai soggetti che ne vengono colpiti di riconoscere i tratti di insieme dei volti delle persone.",
+        "definitionSource": "Wikipedia",
         "level": "difficult",
         "id": 1015
     }

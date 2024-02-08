@@ -69,10 +69,21 @@ struct GuessingScreen: View {
         VStack(alignment: .center) {
             Form {
                 Section {
-                    Text(wordToBeGuessed)
-                        .font(.largeTitle)
-                        .padding()
-                        .frame(alignment: .center)
+                    HStack {
+                        Text(wordToBeGuessed)
+                            .font(.largeTitle)
+                            .padding()
+                            .frame(alignment: .center)
+                            .minimumScaleFactor(0.5)
+                            .lineLimit(1)
+                        Spacer()
+                        VStack(alignment: .leading) {
+                            Text("Error points: \(wrongGuessesInScorePoints)")
+                            Text("Score: \(game.score)")
+                            Text("Level: \(game.level.rawValue)")
+                        }
+                        .font(.caption)
+                    }
                 }
                 Section("Choose a letter") {
                     Picker("Select a letter", selection: $letterSelection) {
@@ -106,7 +117,8 @@ struct GuessingScreen: View {
                 }
                 UsedLetters(usedLetters: usedLetters)
             }
-            
+            .navigationTitle("Hangman")
+            .navigationBarTitleDisplayMode(.inline)
         }
         .onAppear(perform: {
             context.insert(game)
@@ -142,9 +154,14 @@ struct GuessingScreen: View {
     }
     
     func startGuessing() {
-        print(game.score)
+        /*print(game.score)
         print(game.numWords)
-        print(game.level)
+        print(game.level)*/
+        if usedLetters.isNotEmpty {
+            withAnimation {
+                usedLetters = []
+            }
+        }
         
         guard !game.isFinished else {
             isGameFinished = true
@@ -156,11 +173,14 @@ struct GuessingScreen: View {
             return
         }
         
-        print("Loading new word...")
+        //print("Loading new word...")
+        if wrongGuessesInScorePoints <= 6 {
+            game.goToNextLevel()
+        }
         
         wordOptional = game.chooseWordToGuess(from: modelData.words)
-        print(wordOptional)
-        print("Chosen word: \(word.entry)")
+        //print(wordOptional)
+        //print("Chosen word: \(word.entry)")
         if !word.entry.contains("-") {
             wordInUnderscores = [String](
                 repeating: "_",
@@ -190,7 +210,7 @@ struct GuessingScreen: View {
         
         game.score += word.entry.count + scoreIncrementBasedOnLevel
         game.numWords += 1
-        game.goToNextLevel()
+        //game.goToNextLevel()
         showingGuessedWordAlert = true
     }
     
@@ -220,15 +240,9 @@ struct GuessingScreen: View {
             return
         }
         
-        withAnimation {
-            usedLetters = []
-        }
-        
         showingGuessedWordAlert = true
+        wordInUnderscores = []
         game.numWords += 1
-        if wrongGuessesInScorePoints <= 6 {
-            game.goToNextLevel()
-        }
     }
     
     func isValid(input letter: String) -> Bool {

@@ -12,4 +12,8 @@ extension Array {
     func doesNotContain(_ element: Element) -> Bool where Element: Equatable {
         !self.contains(element)
     }
+    
+    var isNotEmpty: Bool {
+        !self.isEmpty
+    }
 }

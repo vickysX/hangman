@@ -17,8 +17,17 @@ struct ContentView: View {
     
     static var fetchDescriptor: FetchDescriptor<Game> {
         var descriptor = FetchDescriptor<Game>(sortBy: [SortDescriptor(\Game.score, order: .reverse)])
-        descriptor.fetchLimit = 5
+        descriptor.fetchLimit = 8
         return descriptor
+    }
+    
+    var scoreStyledText: AttributedString {
+        do {
+            let result = try AttributedString(markdown: "**Score**")
+            return result
+        } catch {
+           fatalError("Couldn't parse the text")
+        }
     }
     
     @Query(fetchDescriptor) var pastGames: [Game]
@@ -46,7 +55,7 @@ struct ContentView: View {
                     } else {
                         Section("Your best games") {
                             ForEach(pastGames) { game in
-                                Text("Score: \(game.score)\n\(game.date.formatted(date: .abbreviated, time: .shortened))")
+                                Text("\(scoreStyledText): \(game.score)\n\(game.date.formatted(date: .abbreviated, time: .shortened))")
                             }
                         }
                     }
@@ -56,23 +65,23 @@ struct ContentView: View {
             .navigationBarTitleDisplayMode(.large)
         }
         .alert("Endgame", isPresented: $showGameFinishedAlert) {
-            
+            Button("OK", role: .cancel) {
+                
+            }
+            Button("Exit", role: .destructive) {
+                exit(0)
+            }
         } message: {
             Text("Game ended")
         }
         .alert("Game Over", isPresented: $showGameOverAlert) {
+            Button("OK", role: .cancel) {}
+            Button("Exit", role: .destructive) {
+                exit(0)
+            }
+        } message: {
             Text("LOOOSEEERRR")
         }
-    }
-    
-    func chooseWordToGuess() -> Word? {
-        let wordsAtCurrentLevel = modelData.words
-            .filter {word in
-            word.level == newGame.level
-        }
-        return newGame.isFinished ?
-            nil :
-            wordsAtCurrentLevel.randomElement()
     }
 }
 
