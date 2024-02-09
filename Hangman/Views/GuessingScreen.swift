@@ -13,6 +13,8 @@ struct GuessingScreen: View {
     @Environment(\.modelContext) var context
     @Environment(\.dismiss) private var dismiss
     
+    @FocusState private var isWholeWordFieldFocused: Bool
+    
     @State private var showingDefinition = false
     @State private var usedLetters = [String]()
     
@@ -79,12 +81,13 @@ struct GuessingScreen: View {
                             .minimumScaleFactor(0.5)
                             .lineLimit(1)
                         Spacer()
-                        VStack(alignment: .leading) {
+                        VStack(alignment: .trailing) {
                             Text("Error points: \(wrongGuessesInScorePoints)")
                             Text("Score: \(game.score)")
                             Text("Level: \(game.level.rawValue)")
                         }
                         .font(.caption)
+                        .multilineTextAlignment(.trailing)
                     }
                 }
                 Section("Choose a letter") {
@@ -97,6 +100,12 @@ struct GuessingScreen: View {
                 }
                 Section("Do you think you're smart?") {
                     TextField("Try to guess the whole word", text: $wholeWordGuess)
+                        .keyboardType(.alphabet)
+                        .focused($isWholeWordFieldFocused)
+                        .onSubmit {
+                            acceptWholeWord()
+                            isWholeWordFieldFocused = false
+                        }
                 }
                 Section {
                     Button {
@@ -173,11 +182,13 @@ struct GuessingScreen: View {
             Button("Guess") {
                 guard wholeWordGuess.isEmpty else {
                     acceptWholeWord()
+                    isWholeWordFieldFocused = false
                     return
                 }
                 accept(letter: letterSelection)
             }
         }
+        
     }
     
     func startGuessing() {
@@ -201,14 +212,12 @@ struct GuessingScreen: View {
             return
         }
         
-        //print("Loading new word...")
         if wrongGuessesInScorePoints <= 6 && game.score > 10 {
             game.goToNextLevel()
         }
         
         wordOptional = game.chooseWordToGuess(from: modelData.words)
-        //print(wordOptional)
-        //print("Chosen word: \(word.entry)")
+        
         if !word.entry.contains("-") {
             wordInUnderscores = [String](
                 repeating: "_",
@@ -283,7 +292,7 @@ struct GuessingScreen: View {
         }
         
         showingGuessedWordAlert = true
-        wordInUnderscores = []
+        //wordInUnderscores = []
         game.numWords += 1
     }
     
