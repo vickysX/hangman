@@ -10,9 +10,7 @@ import SwiftUI
 struct UsedLetters: View {
     
     let columns = [
-        GridItem(.fixed(80)),
-        GridItem(.fixed(80)),
-        GridItem(.fixed(80)),
+        GridItem(.adaptive(minimum: 80))
     ]
     
     var usedLetters: [String]
@@ -24,7 +22,7 @@ struct UsedLetters: View {
                     ForEach(usedLetters, id: \.self) { letter in
                         Text(letter)
                     }
-                    .padding()
+                    .padding(.all, 8)
                 }
                 .animation(.default, value: usedLetters)
             }

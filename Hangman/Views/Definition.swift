@@ -13,7 +13,7 @@ struct Definition: View {
     
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading) {
+            LazyVStack(alignment: .leading) {
                 Image(systemName: "lightbulb.fill")
                     .tint(.yellow)
                 Text("\"\(wordDefinition)\"")
