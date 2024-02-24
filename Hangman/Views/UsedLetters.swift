@@ -19,14 +19,16 @@ struct UsedLetters: View {
     
     var body: some View {
         Section("Used letters") {
-            LazyVGrid(columns: columns) {
-                ForEach(usedLetters, id: \.self) { letter in
-                    Text(letter)
+            ScrollView {
+                LazyVGrid(columns: columns) {
+                    ForEach(usedLetters, id: \.self) { letter in
+                        Text(letter)
+                    }
+                    .padding()
                 }
+                .animation(.default, value: usedLetters)
             }
-            .animation(.default, value: usedLetters)
         }
-        
     }
 }
 
