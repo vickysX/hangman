@@ -192,10 +192,6 @@ struct GuessingScreen: View {
     }
     
     func startGuessing() {
-        print(game.id)
-        print(game.score)
-        print(game.level)
-        
         if usedLetters.isNotEmpty {
             withAnimation {
                 usedLetters = []
@@ -252,7 +248,6 @@ struct GuessingScreen: View {
         
         game.score += word.entry.count + scoreIncrementBasedOnLevel
         game.numWords += 1
-        //game.goToNextLevel()
         showingGuessedWordAlert = true
     }
     
@@ -275,8 +270,6 @@ struct GuessingScreen: View {
                 usedLetters.append(letter)
                 game.score -= scoreIncrementBasedOnLevel
             }
-            print("usedLetters.count: \(usedLetters.count)")
-            print("scoreIncrementBasedOnLevel: \(scoreIncrementBasedOnLevel)")
             guard !game.isOver else {
                 showGameOverAlert = true
                 return
@@ -292,7 +285,6 @@ struct GuessingScreen: View {
         }
         
         showingGuessedWordAlert = true
-        //wordInUnderscores = []
         game.numWords += 1
     }
     
@@ -319,7 +311,6 @@ struct GuessingScreen: View {
                 }
             }
         }
-        print(wordInUnderscores)
     }
     
     func isWordGuessed() -> Bool {

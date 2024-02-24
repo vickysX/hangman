@@ -23,7 +23,7 @@ struct ContentView: View {
             let result = try AttributedString(markdown: "**Score**")
             return result
         } catch {
-           fatalError("Couldn't parse the text")
+            fatalError("Couldn't parse the text")
         }
     }
     
@@ -33,29 +33,27 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack {
-            //VStack {
-                List {
-                    NavigationLink(
-                        destination: GuessingScreen(
-                            game: Game()
-                        )) {
+            List {
+                NavigationLink(
+                    destination: GuessingScreen(
+                        game: Game()
+                    )) {
                         Label("Start new game", systemImage: "dice")
                             .foregroundColor(.accentColor)
                     }
-                    if pastGames.isEmpty {
-                        Text("It seems you have never played before! What are you waiting for?")
-                            .multilineTextAlignment(.center)
-                            .font(.largeTitle)
-                            .padding()
-                    } else {
-                        Section("Your best games") {
-                            ForEach(pastGames) { game in
-                                Text("\(scoreStyledText): \(game.score)\n\(game.date.formatted(date: .abbreviated, time: .shortened))")
-                            }
+                if pastGames.isEmpty {
+                    Text("It seems you have never played before! What are you waiting for?")
+                        .multilineTextAlignment(.center)
+                        .font(.largeTitle)
+                        .padding()
+                } else {
+                    Section("Your best games") {
+                        ForEach(pastGames) { game in
+                            Text("\(scoreStyledText): \(game.score)\n\(game.date.formatted(date: .abbreviated, time: .shortened))")
                         }
                     }
                 }
-            //}
+            }
             .navigationTitle("Hangman")
             .navigationBarTitleDisplayMode(.large)
         }
